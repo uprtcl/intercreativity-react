@@ -1,0 +1,79 @@
+{
+  "name": "react-webpack-typescript-starter",
+  "version": "0.1.0",
+  "description": "Starter kit for React, Webpack (with Hot Module Replacement), Typescript and Babel.",
+  "keywords": [
+    "react",
+    "webpack",
+    "typescript",
+    "babel",
+    "sass",
+    "hmr",
+    "starter",
+    "boilerplate"
+  ],
+  "author": "Viktor Persson",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vikpe/react-webpack-typescript-starter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vikpe/react-webpack-typescript-starter/issues"
+  },
+  "homepage": "https://github.com/vikpe/react-webpack-typescript-starter",
+  "scripts": {
+    "build": "yarn run clean-dist && webpack -p --config=configs/webpack/prod.js",
+    "clean-dist": "rimraf dist/*",
+    "lint": "tslint './src/**/*.ts*' --format stylish --project . --force",
+    "start": "yarn run start-dev",
+    "dev": "webpack-dev-server --config=configs/webpack/dev.js",
+    "start-prod": "yarn run build && node express.js",
+    "test": "jest --coverage --watchAll --config=configs/jest.json"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.10.3",
+    "@babel/core": "^7.10.3",
+    "@babel/preset-env": "^7.10.3",
+    "@babel/preset-react": "^7.10.1",
+    "@types/jest": "^26.0.3",
+    "@types/node": "^14.0.14",
+    "@types/react": "^16.9.41",
+    "@types/react-dom": "^16.9.8",
+    "awesome-typescript-loader": "^5.2.1",
+    "babel-loader": "^8.1.0",
+    "css-loader": "^3.6.0",
+    "express": "^4.17.1",
+    "file-loader": "^6.0.0",
+    "html-webpack-plugin": "^4.3.0",
+    "image-webpack-loader": "^6.0.0",
+    "jest": "^26.1.0",
+    "node-sass": "^4.14.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-hot-loader": "^4.12.21",
+    "rimraf": "^3.0.2",
+    "sass-loader": "^8.0.2",
+    "style-loader": "^1.2.1",
+    "tslint": "^6.1.2",
+    "typescript": "^3.9.5",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-middleware": "^3.7.2",
+    "webpack-dev-server": "^3.11.0",
+    "webpack-merge": "^4.2.2"
+  },
+  "dependencies": {
+    "@uprtcl/access-control": "0.0.7-alpha.40",
+    "@uprtcl/cortex": "0.0.7-alpha.40",
+    "@uprtcl/documents": "0.0.7-alpha.40",
+    "@uprtcl/ethereum-provider": "0.0.7-alpha.40",
+    "@uprtcl/evees": "0.0.7-alpha.40",
+    "@uprtcl/graphql": "0.0.7-alpha.40",
+    "@uprtcl/http-provider": "0.0.7-alpha.40",
+    "@uprtcl/lenses": "0.0.7-alpha.40",
+    "@uprtcl/micro-orchestrator": "0.0.7-alpha.40",
+    "@uprtcl/multiplatform": "0.0.7-alpha.40"
+  }
+}
