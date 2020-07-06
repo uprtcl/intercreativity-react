@@ -1,12 +1,11 @@
 $bg-color: yellow;
 $border-color: red;
 
-.app {
-  font-family: helvetica, arial, sans-serif;
-  padding: 2em;
-  border: 5px solid $border-color;
-
-  p {
-    background-color: $bg-color;
-  }
+.editor {
+  max-width: 600px;
+  margin: 0 auto;
+  border-radius: 12px;
+  box-shadow: 0px 0px 150px 27px rgba(220, 220, 250, 1);
+  margin-top: 10vh;
+  margin-bottom: 10vh;
 }
