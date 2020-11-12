@@ -24,6 +24,7 @@
   "homepage": "https://github.com/vikpe/react-webpack-typescript-starter",
   "scripts": {
     "build": "yarn run clean-dist && webpack -p --config=configs/webpack/prod.js",
+    "build-dev": "yarn run clean-dist && webpack -p --config=configs/webpack/dev.js",
     "clean-dist": "rimraf dist/*",
     "lint": "tslint './src/**/*.ts*' --format stylish --project . --force",
     "start": "yarn run start-dev",
@@ -65,16 +66,15 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
-    "@uprtcl/access-control": "0.0.7-alpha.41",
-    "@uprtcl/cortex": "0.0.7-alpha.41",
-    "@uprtcl/documents": "0.0.7-alpha.41",
-    "@uprtcl/ethereum-provider": "0.0.7-alpha.41",
-    "@uprtcl/evees": "0.0.7-alpha.41",
-    "@uprtcl/graphql": "0.0.7-alpha.41",
-    "@uprtcl/http-provider": "0.0.7-alpha.41",
-    "@uprtcl/lenses": "0.0.7-alpha.41",
-    "@uprtcl/micro-orchestrator": "0.0.7-alpha.41",
-    "@uprtcl/multiplatform": "0.0.7-alpha.41",
+    "@uprtcl/documents": "0.1.0-beta.7",
+    "@uprtcl/evees": "0.1.0-beta.7",
+    "@uprtcl/evees-http": "0.1.0-beta.13",
+    "@uprtcl/cortex": "0.1.0-beta.4",
+    "@uprtcl/graphql": "0.1.0-beta.4",
+    "@uprtcl/lenses": "0.1.0-beta.4",
+    "@uprtcl/micro-orchestrator": "0.1.0-beta.4",
+    "@uprtcl/multiplatform": "0.1.0-beta.4",
+    "@uprtcl/http-provider": "0.1.0-beta.6",
     "apollo-boost": "^0.4.9"
   }
 }

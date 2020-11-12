@@ -1,21 +1,26 @@
-import * as React from 'react'
-import { hot } from 'react-hot-loader'
-import { ApolloClient, gql } from 'apollo-boost'
+import * as React from "react";
+import { hot } from "react-hot-loader";
+import { ApolloClient, gql } from "apollo-boost";
 
-import { ApolloClientModule } from '@uprtcl/graphql'
+import { ApolloClientModule } from "@uprtcl/graphql";
 
-import { orchestrator } from '../index'
+import { orchestrator } from "../index";
 
-import './../assets/scss/App.scss'
-import { EveesHelpers, EveesModule, EveesRemote } from '@uprtcl/evees'
-import { CortexModule, PatternRecognizer } from '@uprtcl/cortex'
-import { TextType } from '@uprtcl/documents'
+import "./../assets/scss/App.scss";
+import {
+  EveesConfig,
+  EveesHelpers,
+  EveesModule,
+  EveesRemote,
+} from "@uprtcl/evees";
+import { CortexModule, PatternRecognizer } from "@uprtcl/cortex";
+import { TextType } from "@uprtcl/documents";
 
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      'documents-editor': any
-      'module-container': any
+      "documents-editor": any;
+      "module-container": any;
     }
   }
 }
@@ -23,16 +28,16 @@ declare global {
 interface IProps {}
 
 interface IState {
-  perspectiveId?: string
+  perspectiveId?: string;
 }
 
 class App extends React.Component<IProps, IState> {
-  protected client!: ApolloClient<any>
-  protected recognizer!: PatternRecognizer
+  protected client!: ApolloClient<any>;
+  protected recognizer!: PatternRecognizer;
 
   constructor(props: IProps) {
-    super(props)
-    this.state = { perspectiveId: '' }
+    super(props);
+    this.state = { perspectiveId: "" };
   }
 
   async componentWillMount() {
@@ -45,29 +50,35 @@ class App extends React.Component<IProps, IState> {
      * - The remote is the HTTP EveesRemote service.
      *
      */
-    this.client = orchestrator.container.get(ApolloClientModule.bindings.Client)
+    this.client = orchestrator.container.get(
+      ApolloClientModule.bindings.Client
+    );
     this.recognizer = orchestrator.container.get(
-      CortexModule.bindings.Recognizer,
-    )
-    const remote = orchestrator.container.get(
-      EveesModule.bindings.DefaultRemote,
-    ) as EveesRemote
+      CortexModule.bindings.Recognizer
+    );
+    const remote = (orchestrator.container.get(
+      EveesModule.bindings.Config
+    ) as EveesConfig).defaultRemote;
 
     const doc = {
-      text: '',
+      text: "",
       type: TextType.Title,
       links: [],
-    }
+    };
 
     /** An Evee is made of a content-addressable object (this are called entities in _Prtcl) */
-    const dataId = await EveesHelpers.createEntity(this.client, remote, doc)
+    const dataId = await EveesHelpers.createEntity(
+      this.client,
+      remote.store,
+      doc
+    );
 
     /** A commit object (also content-addressable) that points to that object */
-    const headId = await EveesHelpers.createCommit(this.client, remote, {
+    const headId = await EveesHelpers.createCommit(this.client, remote.store, {
       dataId,
-    })
+    });
 
-    const randint = 0 + Math.floor((10000 - 0) * Math.random())
+    const randint = 0 + Math.floor((10000 - 0) * Math.random());
 
     /** And a mutable reference stored on a given EveesRemote */
     const perspectiveId = await EveesHelpers.createPerspective(
@@ -77,12 +88,12 @@ class App extends React.Component<IProps, IState> {
         headId,
         context: `my-test-${randint}`,
         canWrite: remote.userId,
-      },
-    )
+      }
+    );
 
-    this.setState((state) => ({ perspectiveId }))
+    this.setState((state) => ({ perspectiveId }));
 
-    console.log('Perspective created', perspectiveId)
+    console.log("Perspective created", perspectiveId);
   }
 
   public render() {
@@ -95,14 +106,15 @@ class App extends React.Component<IProps, IState> {
             {/* The <documents-editor> web-component was registered by the DocumentsModule */}
             <documents-editor
               uref={this.state.perspectiveId}
+              show-info
             ></documents-editor>
           </div>
         </module-container>
       </div>
-    )
+    );
   }
 }
 
-declare let module: object
+declare let module: object;
 
-export default hot(module)(App)
+export default hot(module)(App);
