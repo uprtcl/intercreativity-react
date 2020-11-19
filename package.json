@@ -1,28 +1,18 @@
 {
-  "name": "react-webpack-typescript-starter",
+  "name": "uprtcl-sample-react",
   "version": "0.1.0",
-  "description": "Starter kit for React, Webpack (with Hot Module Replacement), Typescript and Babel.",
-  "keywords": [
-    "react",
-    "webpack",
-    "typescript",
-    "babel",
-    "sass",
-    "hmr",
-    "starter",
-    "boilerplate"
-  ],
-  "author": "Viktor Persson",
+  "description": "Demo project showing how to reuse and extend _Prtcl Evees editor",
+  "keywords": [],
+  "author": "Pepo Ospina",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vikpe/react-webpack-typescript-starter.git"
+    "url": "git+https://github.com/uprtcl/uprtcl-sample-react.git"
   },
-  "bugs": {
-    "url": "https://github.com/vikpe/react-webpack-typescript-starter/issues"
-  },
-  "homepage": "https://github.com/vikpe/react-webpack-typescript-starter",
+  "bugs": {},
+  "homepage": "",
   "scripts": {
+    "update-uprtcl": "ncu -u \"/^@uprtcl.*$/\"",
     "build": "yarn run clean-dist && webpack -p --config=configs/webpack/prod.js",
     "build-dev": "yarn run clean-dist && webpack -p --config=configs/webpack/dev.js",
     "clean-dist": "rimraf dist/*",
@@ -31,6 +21,19 @@
     "dev": "webpack-dev-server --config=configs/webpack/dev.js",
     "start-prod": "yarn run build && node express.js",
     "test": "jest --coverage --watchAll --config=configs/jest.json"
+  },
+  "dependencies": {
+    "@uprtcl/documents": "0.1.0-beta.10",
+    "@uprtcl/evees": "0.1.0-beta.10",
+    "@uprtcl/evees-http": "0.1.0-beta.20",
+    "@uprtcl/cortex": "0.1.0-beta.4",
+    "@uprtcl/graphql": "0.1.0-beta.4",
+    "@uprtcl/lenses": "0.1.0-beta.4",
+    "@uprtcl/micro-orchestrator": "0.1.0-beta.4",
+    "@uprtcl/multiplatform": "0.1.0-beta.4",
+    "@uprtcl/http-provider": "0.1.0-beta.7",
+    "apollo-boost": "^0.4.9",
+    "source-map-loader": "^1.1.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.3",
@@ -63,18 +66,7 @@
     "webpack-cli": "^3.3.12",
     "webpack-dev-middleware": "^3.7.2",
     "webpack-dev-server": "^3.11.0",
-    "webpack-merge": "^4.2.2"
-  },
-  "dependencies": {
-    "@uprtcl/documents": "0.1.0-beta.7",
-    "@uprtcl/evees": "0.1.0-beta.7",
-    "@uprtcl/evees-http": "0.1.0-beta.13",
-    "@uprtcl/cortex": "0.1.0-beta.4",
-    "@uprtcl/graphql": "0.1.0-beta.4",
-    "@uprtcl/lenses": "0.1.0-beta.4",
-    "@uprtcl/micro-orchestrator": "0.1.0-beta.4",
-    "@uprtcl/multiplatform": "0.1.0-beta.4",
-    "@uprtcl/http-provider": "0.1.0-beta.6",
-    "apollo-boost": "^0.4.9"
+    "webpack-merge": "^4.2.2",
+    "npm-check-updates": "^10.2.1"
   }
 }

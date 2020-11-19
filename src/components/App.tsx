@@ -10,8 +10,8 @@ import "./../assets/scss/App.scss";
 import {
   EveesConfig,
   EveesHelpers,
+  EveesInfoConfig,
   EveesModule,
-  EveesRemote,
 } from "@uprtcl/evees";
 import { CortexModule, PatternRecognizer } from "@uprtcl/cortex";
 import { TextType } from "@uprtcl/documents";
@@ -97,6 +97,13 @@ class App extends React.Component<IProps, IState> {
   }
 
   public render() {
+    const eveesInfoConfig: EveesInfoConfig = {
+      showDraftControl: true,
+      showInfo: true,
+      showIcon: true,
+      checkOwner: true,
+    };
+
     return (
       <div>
         {/* One module container component is needed as a wrapper above all Intercreativity's components.
@@ -106,7 +113,7 @@ class App extends React.Component<IProps, IState> {
             {/* The <documents-editor> web-component was registered by the DocumentsModule */}
             <documents-editor
               uref={this.state.perspectiveId}
-              show-info
+              eveesInfoConfig={JSON.stringify(eveesInfoConfig)}
             ></documents-editor>
           </div>
         </module-container>

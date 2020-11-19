@@ -19,6 +19,9 @@ import { CortexModule } from "@uprtcl/cortex";
 import { ApolloClientModule } from "@uprtcl/graphql";
 import { DiscoveryModule } from "@uprtcl/multiplatform";
 
+import { QuantityModule } from "./module/quantity.module";
+import { customBlocks } from "./customBlocks";
+
 export let orchestrator: MicroOrchestrator;
 
 (async function () {
@@ -55,7 +58,7 @@ export let orchestrator: MicroOrchestrator;
 
   const evees = new EveesModule([httpEvees]);
 
-  const documents = new DocumentsModule();
+  const documents = new DocumentsModule(customBlocks);
 
   const modules = [
     new i18nextBaseModule(),
@@ -63,6 +66,7 @@ export let orchestrator: MicroOrchestrator;
     new CortexModule(),
     new DiscoveryModule([httpEvees.casID]),
     new LensesModule(),
+    new QuantityModule(),
     evees,
     documents,
   ];
