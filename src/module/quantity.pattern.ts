@@ -1,15 +1,15 @@
-import { html } from "lit-element";
-import { injectable } from "inversify";
+import { html } from 'lit-element';
+import { injectable } from 'inversify';
 
-import { Pattern, recognizeEntity, HasChildren, Entity } from "@uprtcl/cortex";
-import { Merge, MergeStrategy, EveesWorkspace } from "@uprtcl/evees";
-import { Lens, HasLenses } from "@uprtcl/lenses";
-import { DocNodeLens, DocNodeEventsHandlers, DocNode } from "@uprtcl/documents";
+import { Pattern, recognizeEntity, HasChildren, Entity } from '@uprtcl/cortex';
+import { Merge, MergeStrategy, EveesWorkspace } from '@uprtcl/evees';
+import { Lens, HasLenses } from '@uprtcl/lenses';
+import { DocNodeLens, DocNodeEventsHandlers, DocNode } from '@uprtcl/documents';
 
-import { Quantity } from "./types";
-import { QuantityBindings } from "./bindings";
+import { Quantity } from './types';
+import { QuantityBindings } from './bindings';
 
-const properties = ["quantity"];
+const properties = ['quantity'];
 
 export class QuantityPattern extends Pattern<Entity<Quantity>> {
   recognize(entity: object): boolean {
@@ -31,7 +31,7 @@ export class QuantityBehaviors
   replaceChildrenLinks = (node: Entity<Quantity>) => (
     childrenHashes: string[]
   ): Entity<Quantity> => ({
-    id: "",
+    id: '',
     object: {
       ...node.object,
       description: childrenHashes[0],
@@ -47,8 +47,8 @@ export class QuantityBehaviors
   lenses = (node: Entity<Quantity>): Lens[] => {
     return [
       {
-        name: "quantity:quantity",
-        type: "content",
+        name: 'quantity:quantity',
+        type: 'content',
         render: (entity: Entity<any>, context: any) => {
           return html` <quantity-block uref=${entity.id}></quantity-block> `;
         },
@@ -60,11 +60,18 @@ export class QuantityBehaviors
   docNodeLenses = (): DocNodeLens[] => {
     return [
       {
-        name: "quantity:quantity",
-        type: "content",
+        name: 'quantity:quantity',
+        type: 'content',
         render: (node: DocNode, events: DocNodeEventsHandlers) => {
           // logger.log('lenses: documents:document - render()', { node });
-          return html` <quantity-block .data=${node.draft}> </quantity-block> `;
+          return html`
+            <quantity-block
+              .data=${node.draft}
+              @content-changed=${(e) =>
+                events.contentChanged(e.detail.content, false)}
+            >
+            </quantity-block>
+          `;
         },
       },
     ];

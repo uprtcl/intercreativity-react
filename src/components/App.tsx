@@ -1,26 +1,26 @@
-import * as React from "react";
-import { hot } from "react-hot-loader";
-import { ApolloClient, gql } from "apollo-boost";
+import * as React from 'react';
+import { hot } from 'react-hot-loader';
+import { ApolloClient, gql } from 'apollo-boost';
 
-import { ApolloClientModule } from "@uprtcl/graphql";
+import { ApolloClientModule } from '@uprtcl/graphql';
 
-import { orchestrator } from "../index";
+import { orchestrator } from '../index';
 
-import "./../assets/scss/App.scss";
+import './../assets/scss/App.scss';
 import {
   EveesConfig,
   EveesHelpers,
   EveesInfoConfig,
   EveesModule,
-} from "@uprtcl/evees";
-import { CortexModule, PatternRecognizer } from "@uprtcl/cortex";
-import { TextType } from "@uprtcl/documents";
+} from '@uprtcl/evees';
+import { CortexModule, PatternRecognizer } from '@uprtcl/cortex';
+import { TextType } from '@uprtcl/documents';
 
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      "documents-editor": any;
-      "module-container": any;
+      'documents-editor': any;
+      'module-container': any;
     }
   }
 }
@@ -37,7 +37,7 @@ class App extends React.Component<IProps, IState> {
 
   constructor(props: IProps) {
     super(props);
-    this.state = { perspectiveId: "" };
+    this.state = { perspectiveId: '' };
   }
 
   async componentWillMount() {
@@ -61,7 +61,7 @@ class App extends React.Component<IProps, IState> {
     ) as EveesConfig).defaultRemote;
 
     const doc = {
-      text: "",
+      text: '',
       type: TextType.Title,
       links: [],
     };
@@ -93,7 +93,7 @@ class App extends React.Component<IProps, IState> {
 
     this.setState((state) => ({ perspectiveId }));
 
-    console.log("Perspective created", perspectiveId);
+    console.log('Perspective created', perspectiveId);
   }
 
   public render() {
@@ -102,6 +102,7 @@ class App extends React.Component<IProps, IState> {
       showInfo: true,
       showIcon: true,
       checkOwner: true,
+      isDraggable: true,
     };
 
     return (

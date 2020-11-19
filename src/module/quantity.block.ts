@@ -1,18 +1,78 @@
-import { LitElement, html, css, property } from "lit-element";
-import { Logger } from "@uprtcl/micro-orchestrator";
-import { Quantity } from "./types";
+import { LitElement, html, css, property, query } from 'lit-element';
+import { Logger } from '@uprtcl/micro-orchestrator';
+import { UprtclTextField } from '@uprtcl/common-ui';
+import { Quantity } from './types';
 
 export class QuantityBlock extends LitElement {
-  logger = new Logger("QUANTITY-LENSE");
+  logger = new Logger('QUANTITY-LENSE');
 
-  @property()
+  @property({ type: Object })
   data: Quantity;
 
+  @query('#value-input')
+  valueInputEl!: UprtclTextField;
+
+  @query('#value-input')
+  unitsInputEl!: UprtclTextField;
+
+  valueInput(e) {
+    this.dispatchEvent(
+      new CustomEvent('content-changed', {
+        detail: {
+          content: {
+            ...this.data,
+            value: this.valueInputEl.value,
+          },
+        },
+        bubbles: true,
+        composed: true,
+      })
+    );
+  }
+
+  unitsInput(e) {
+    this.dispatchEvent(
+      new CustomEvent('content-changed', {
+        detail: {
+          content: {
+            ...this.data,
+            units: this.unitsInputEl.value,
+          },
+        },
+        bubbles: true,
+        composed: true,
+      })
+    );
+  }
+
   render() {
-    return html`<div>${JSON.stringify(this.data)}</div>`;
+    return html`<div class="row">
+      <uprtcl-textfield
+        id="value-input"
+        label="value"
+        value=${this.data.value ? this.data.value : ''}
+        @input=${this.valueInput}
+      ></uprtcl-textfield>
+      <uprtcl-textfield
+        id="units-input"
+        label="units"
+        class="units"
+        value=${this.data.units ? this.data.units : ''}
+        @input=${this.unitsInput}
+      ></uprtcl-textfield>
+    </div>`;
   }
 
   static get styles() {
-    return css``;
+    return css`
+      .row {
+        display: flex;
+        justify-content: center;
+        padding: 6px;
+      }
+      uprtcl-textfield {
+        margin: 0px 6px;
+      }
+    `;
   }
 }
