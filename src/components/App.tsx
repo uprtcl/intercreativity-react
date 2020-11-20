@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { hot } from 'react-hot-loader';
-import { ApolloClient, gql } from 'apollo-boost';
+import { ApolloClient } from 'apollo-boost';
 
 import { ApolloClientModule } from '@uprtcl/graphql';
 
@@ -12,6 +11,7 @@ import {
   EveesHelpers,
   EveesInfoConfig,
   EveesModule,
+  EveesRemote,
 } from '@uprtcl/evees';
 import { CortexModule, PatternRecognizer } from '@uprtcl/cortex';
 import { TextType } from '@uprtcl/documents';
@@ -19,8 +19,7 @@ import { TextType } from '@uprtcl/documents';
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      'documents-editor': any;
-      'module-container': any;
+      [x: string]: any;
     }
   }
 }
@@ -33,6 +32,7 @@ interface IState {
 
 class App extends React.Component<IProps, IState> {
   protected client!: ApolloClient<any>;
+  protected remote!: EveesRemote;
   protected recognizer!: PatternRecognizer;
 
   constructor(props: IProps) {
@@ -60,6 +60,20 @@ class App extends React.Component<IProps, IState> {
       EveesModule.bindings.Config
     ) as EveesConfig).defaultRemote;
 
+    if (!remote) throw new Error('remote not found');
+    this.remote = remote;
+
+    let docId = localStorage.getItem('DOC_ID');
+
+    if (docId) {
+      this.setState((state) => ({ perspectiveId: docId }));
+    } else {
+      docId = await this.createDoc();
+      localStorage.setItem('DOC_ID', docId);
+    }
+  }
+
+  async createDoc() {
     const doc = {
       text: '',
       type: TextType.Title,
@@ -69,31 +83,35 @@ class App extends React.Component<IProps, IState> {
     /** An Evee is made of a content-addressable object (this are called entities in _Prtcl) */
     const dataId = await EveesHelpers.createEntity(
       this.client,
-      remote.store,
+      this.remote.store,
       doc
     );
 
     /** A commit object (also content-addressable) that points to that object */
-    const headId = await EveesHelpers.createCommit(this.client, remote.store, {
-      dataId,
-    });
+    const headId = await EveesHelpers.createCommit(
+      this.client,
+      this.remote.store,
+      {
+        dataId,
+      }
+    );
 
     const randint = 0 + Math.floor((10000 - 0) * Math.random());
 
     /** And a mutable reference stored on a given EveesRemote */
     const perspectiveId = await EveesHelpers.createPerspective(
       this.client,
-      remote,
+      this.remote,
       {
         headId,
         context: `my-test-${randint}`,
-        canWrite: remote.userId,
+        canWrite: this.remote.userId,
       }
     );
 
     this.setState((state) => ({ perspectiveId }));
 
-    console.log('Perspective created', perspectiveId);
+    return perspectiveId;
   }
 
   public render() {
@@ -103,10 +121,12 @@ class App extends React.Component<IProps, IState> {
       showIcon: true,
       checkOwner: true,
       isDraggable: true,
+      showDebugInfo: true,
     };
 
     return (
       <div>
+        <uprtcl-button onClick={() => this.createDoc()}>reset</uprtcl-button>
         {/* One module container component is needed as a wrapper above all Intercreativity's components.
             It exposes the micro-orchestrator container to the components. But you dont need to care about that. */}
         <module-container>
@@ -123,6 +143,4 @@ class App extends React.Component<IProps, IState> {
   }
 }
 
-declare let module: object;
-
-export default hot(module)(App);
+export default App;

@@ -1,11 +1,11 @@
-import { CustomBlocks, TextType } from "@uprtcl/documents";
-import { EveesHelpers } from "@uprtcl/evees";
-import { ApolloClient } from "apollo-boost";
+import { CustomBlocks, TextType } from '@uprtcl/documents';
+import { EveesHelpers } from '@uprtcl/evees';
+import { ApolloClient } from 'apollo-boost';
 
 export const customBlocks: CustomBlocks = {
   TextNode: {
     default: {
-      text: "",
+      text: '',
       type: TextType.Paragraph,
       links: [],
     },
