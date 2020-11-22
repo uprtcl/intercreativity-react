@@ -1,26 +1,26 @@
-import * as React from "react";
-import { render } from "react-dom";
-import App from "./components/App";
+import * as React from 'react';
+import { render } from 'react-dom';
+import App from './components/App';
 
-import { Auth0ClientOptions } from "@auth0/auth0-spa-js";
+import { Auth0ClientOptions } from '@auth0/auth0-spa-js';
 
-import { EveesHttp } from "@uprtcl/evees-http";
+import { EveesHttp, EveesHttpModule } from '@uprtcl/evees-http';
 
-import { HttpStore, HttpAuth0Provider } from "@uprtcl/http-provider";
+import { HttpStore, HttpAuth0Provider } from '@uprtcl/http-provider';
 
 import {
   MicroOrchestrator,
   i18nextBaseModule,
-} from "@uprtcl/micro-orchestrator";
-import { LensesModule } from "@uprtcl/lenses";
-import { DocumentsModule } from "@uprtcl/documents";
-import { EveesModule } from "@uprtcl/evees";
-import { CortexModule } from "@uprtcl/cortex";
-import { ApolloClientModule } from "@uprtcl/graphql";
-import { DiscoveryModule } from "@uprtcl/multiplatform";
+} from '@uprtcl/micro-orchestrator';
+import { LensesModule } from '@uprtcl/lenses';
+import { DocumentsModule } from '@uprtcl/documents';
+import { EveesModule } from '@uprtcl/evees';
+import { CortexModule } from '@uprtcl/cortex';
+import { ApolloClientModule } from '@uprtcl/graphql';
+import { DiscoveryModule } from '@uprtcl/multiplatform';
 
-import { QuantityModule } from "./module/quantity.module";
-import { customBlocks } from "./customBlocks";
+import { QuantityModule } from './module/quantity.module';
+import { customBlocks } from './customBlocks';
 
 export let orchestrator: MicroOrchestrator;
 
@@ -31,26 +31,26 @@ export let orchestrator: MicroOrchestrator;
    *
    * The micro-orchestor will also load the custom-elements of each module, so they can be used in your app.
    */
-  const c1host = "http://localhost:3100/uprtcl/1";
+  const c1host = 'http://localhost:3100/uprtcl/1';
 
   const httpCidConfig: any = {
     version: 1,
-    type: "sha3-256",
-    codec: "raw",
-    base: "base58btc",
+    type: 'sha3-256',
+    codec: 'raw',
+    base: 'base58btc',
   };
 
   orchestrator = new MicroOrchestrator();
 
   const auth0Config: Auth0ClientOptions = {
-    domain: "linked-thoughts-dev.eu.auth0.com",
-    client_id: "I7cwQfbSOm9zzU29Lt0Z3TjQsdB6GVEf",
+    domain: 'linked-thoughts-dev.eu.auth0.com',
+    client_id: 'I7cwQfbSOm9zzU29Lt0Z3TjQsdB6GVEf',
     redirect_uri: `${window.location.origin}/homeBLYAT`,
-    cacheLocation: "localstorage",
+    cacheLocation: 'localstorage',
   };
 
   const httpProvider = new HttpAuth0Provider(
-    { host: c1host, apiId: "evees-v1" },
+    { host: c1host, apiId: 'evees-v1' },
     auth0Config
   );
   const httpStore = new HttpStore(httpProvider, httpCidConfig);
@@ -66,6 +66,7 @@ export let orchestrator: MicroOrchestrator;
     new CortexModule(),
     new DiscoveryModule([httpEvees.casID]),
     new LensesModule(),
+    new EveesHttpModule(),
     new QuantityModule(),
     evees,
     documents,
@@ -76,7 +77,7 @@ export let orchestrator: MicroOrchestrator;
   await httpEvees.connect();
   await httpEvees.login();
 
-  const rootEl = document.getElementById("root");
+  const rootEl = document.getElementById('root');
 
   render(<App />, rootEl);
 })();

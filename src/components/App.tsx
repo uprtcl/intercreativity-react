@@ -69,7 +69,6 @@ class App extends React.Component<IProps, IState> {
       this.setState((state) => ({ perspectiveId: docId }));
     } else {
       docId = await this.createDoc();
-      localStorage.setItem('DOC_ID', docId);
     }
   }
 
@@ -109,6 +108,7 @@ class App extends React.Component<IProps, IState> {
       }
     );
 
+    localStorage.setItem('DOC_ID', perspectiveId);
     this.setState((state) => ({ perspectiveId }));
 
     return perspectiveId;
@@ -117,11 +117,11 @@ class App extends React.Component<IProps, IState> {
   public render() {
     const eveesInfoConfig: EveesInfoConfig = {
       showDraftControl: true,
+      showAcl: true,
       showInfo: true,
       showIcon: true,
-      checkOwner: true,
       isDraggable: true,
-      showDebugInfo: true,
+      showDebugInfo: false,
     };
 
     return (
