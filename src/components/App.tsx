@@ -56,9 +56,10 @@ class App extends React.Component<IProps, IState> {
     this.recognizer = orchestrator.container.get(
       CortexModule.bindings.Recognizer
     );
-    const remote = (orchestrator.container.get(
+    const config = orchestrator.container.get(
       EveesModule.bindings.Config
-    ) as EveesConfig).defaultRemote;
+    ) as EveesConfig;
+    const remote = config.defaultRemote;
 
     if (!remote) throw new Error('remote not found');
     this.remote = remote;
