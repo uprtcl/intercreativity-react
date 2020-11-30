@@ -1,4 +1,4 @@
-import { CustomBlocks, TextType } from '@uprtcl/documents';
+import { CustomBlocks, DocNode, TextType } from '@uprtcl/documents';
 import { EveesHelpers } from '@uprtcl/evees';
 import { ApolloClient } from 'apollo-boost';
 
@@ -11,13 +11,13 @@ export const customBlocks: CustomBlocks = {
     },
     canConvertTo: {
       Quantity: async (
-        uref: string,
+        node: DocNode,
         client: ApolloClient<any>
       ): Promise<any> => {
-        const data = await EveesHelpers.getPerspectiveData(client, uref);
+        const data = !node.isPlaceholder ? await EveesHelpers.getPerspectiveData(client, node.uref) : undefined;
         return {
-          quantity: data.object.quantity ? data.object.quantity : 0,
-          description: uref,
+          value: data && data.object.value ? data.object.value : 0,
+          description: node.uref,
         };
       },
     },
@@ -28,14 +28,14 @@ export const customBlocks: CustomBlocks = {
     },
     canConvertTo: {
       TextNode: async (
-        uref: string,
+        node: DocNode,
         client: ApolloClient<any>
       ): Promise<any> => {
-        const data = await EveesHelpers.getPerspectiveData(client, uref);
+        const data = !node.isPlaceholder ? await EveesHelpers.getPerspectiveData(client, node.uref) : undefined;
         /** quanity is part of the text node even if it's not used when rendering it */
         return {
-          quantity: data.object.quantity,
-          text: data.object.description,
+          value: data ? data.object.value : 0,
+          text: data ? data.object.description : '',
         };
       },
     },

@@ -9,7 +9,7 @@ import { DocNodeLens, DocNodeEventsHandlers, DocNode } from '@uprtcl/documents';
 import { Quantity } from './types';
 import { QuantityBindings } from './bindings';
 
-const properties = ['quantity'];
+const properties = ['value'];
 
 export class QuantityPattern extends Pattern<Entity<Quantity>> {
   recognize(entity: object): boolean {
@@ -66,7 +66,9 @@ export class QuantityBehaviors
           // logger.log('lenses: documents:document - render()', { node });
           return html`
             <quantity-block
+              uref=${node.uref}
               .data=${node.draft}
+              ?editable=${node.editable}
               @content-changed=${(e) =>
                 events.contentChanged(e.detail.content, false)}
             >

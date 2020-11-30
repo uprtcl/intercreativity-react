@@ -35,7 +35,8 @@ export let orchestrator = new MicroOrchestrator();
    *
    * The micro-orchestor will also load the custom-elements of each module, so they can be used in your app.
    */
-  const c1host = 'https://api.intercreativity.io/uprtcl/1';
+  // const c1host = 'https://api.intercreativity.io/uprtcl/1';
+  const c1host = 'http://localhost:3100/uprtcl/1';
 
   const httpCidConfig: any = {
     version: 1,

@@ -34,10 +34,12 @@ class App extends React.Component<IProps, IState> {
   protected client!: ApolloClient<any>;
   protected remote!: EveesRemote;
   protected recognizer!: PatternRecognizer;
+  protected editor!: any;
 
   constructor(props: IProps) {
     super(props);
     this.state = { perspectiveId: '' };
+    this.editor = React.createRef();
   }
 
   async componentWillMount() {
@@ -71,6 +73,12 @@ class App extends React.Component<IProps, IState> {
     } else {
       docId = await this.createDoc();
     }
+    
+  }
+
+  async forceReload() {
+    await this.client.resetStore();
+    this.editor.current.reload();
   }
 
   async createDoc() {
@@ -128,12 +136,20 @@ class App extends React.Component<IProps, IState> {
     return (
       <div>
         <uprtcl-button onClick={() => this.createDoc()}>reset</uprtcl-button>
+        <uprtcl-icon-button
+          skinny
+          button
+          class="reload-button"
+          icon="cached"
+          onClick={() => this.forceReload()}
+        ></uprtcl-icon-button>
         {/* One module container component is needed as a wrapper above all Intercreativity's components.
             It exposes the micro-orchestrator container to the components. But you dont need to care about that. */}
         <module-container>
           <div className="editor">
             {/* The <documents-editor> web-component was registered by the DocumentsModule */}
             <documents-editor
+              ref={this.editor}
               uref={this.state.perspectiveId}
               eveesInfoConfig={JSON.stringify(eveesInfoConfig)}
             ></documents-editor>

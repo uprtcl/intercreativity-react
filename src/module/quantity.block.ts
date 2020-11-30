@@ -6,13 +6,19 @@ import { Quantity } from './types';
 export class QuantityBlock extends LitElement {
   logger = new Logger('QUANTITY-LENSE');
 
+  @property({ type: String })
+  uref: string;
+
   @property({ type: Object })
   data: Quantity;
+
+  @property({ type: Boolean })
+  editable: Boolean = false;
 
   @query('#value-input')
   valueInputEl!: UprtclTextField;
 
-  @query('#value-input')
+  @query('#units-input')
   unitsInputEl!: UprtclTextField;
 
   valueInput(e) {
@@ -48,12 +54,14 @@ export class QuantityBlock extends LitElement {
   render() {
     return html`<div class="row">
       <uprtcl-textfield
+        ?disabled=${!this.editable}
         id="value-input"
         label="value"
         value=${this.data.value ? this.data.value : ''}
         @input=${this.valueInput}
       ></uprtcl-textfield>
       <uprtcl-textfield
+        ?disabled=${!this.editable}
         id="units-input"
         label="units"
         class="units"
